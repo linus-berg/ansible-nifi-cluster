@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Apache NiFi Cluster Automation</title>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/black.min.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Apache NiFi Cluster Automation</h1>
+					<p>Deploying Scalable Data Flow with Ansible</p>
+				</section>
+
+				<section>
+					<h2>What is Apache NiFi?</h2>
+					<ul>
+						<li class="fragment">Visual data orchestration tool</li>
+						<li class="fragment">Process and distribute data between systems</li>
+						<li class="fragment">High-level control, real-time data flow</li>
+						<li class="fragment">Built-in lineage and tracking (Data Provenance)</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>The Challenge: Clustering</h2>
+					<ul>
+						<li class="fragment">Multi-node coordination</li>
+						<li class="fragment">External or Embedded ZooKeeper management</li>
+						<li class="fragment">Complex `nifi.properties` sync</li>
+						<li class="fragment">Security (HTTPS/Users/Authorizers) setup</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>The Solution: This Playbook</h2>
+					<p>A declarative approach to NiFi infrastructure.</p>
+					<ul>
+						<li class="fragment">Automated Java and NiFi installation</li>
+						<li class="fragment">Embedded ZooKeeper auto-configuration</li>
+						<li class="fragment">Dynamic State Management setup</li>
+						<li class="fragment">Ansible-managed User & Policy XMLs</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Playbook Overview</h2>
+					<pre><code class="language-yaml" data-trim data-noescape>
+- name: Setup NiFi Cluster
+  hosts: nifi
+  become: yes
+  roles:
+    - common          # Java, dependencies
+    - nifi            # Core Install & ZK
+    - nifi_security   # Users & Policies
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Embedded ZooKeeper Automation</h2>
+					<p>The playbook handles the complex task of creating `zookeeper.properties` and the `myid` files for all cluster nodes automatically based on the Ansible inventory.</p>
+				</section>
+
+				<section>
+					<h2>Declarative User Management</h2>
+					<p>Users and initial admins are defined as variables, and the playbook generates the required `users.xml` and `authorizers.xml` for you.</p>
+				</section>
+
+				<section>
+					<h2>Ready to Deploy?</h2>
+					<p>Check the <code>README.md</code> for quick start instructions.</p>
+					<pre><code class="language-bash">
+ansible-playbook -i inventory/hosts.ini playbook.yml
+					</code></pre>
+				</section>
+
+				<section>
+					<h3>Thank You!</h3>
+					<p>Scalable, Automated Data Orchestration</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+			});
+		</script>
+	</body>
+</html>
