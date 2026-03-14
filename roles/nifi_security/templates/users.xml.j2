@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tenants>
+    <groups/>
+    <users>
+{% for user in nifi_users %}
+        <user identifier="{{ user.username | to_uuid }}" identity="{{ user.username }}"/>
+{% endfor %}
+{% for host in groups['nifi'] %}
+        <user identifier="{{ hostvars[host].ansible_default_ipv4.address | to_uuid }}" identity="{{ hostvars[host].ansible_default_ipv4.address }}"/>
+{% endfor %}
+    </users>
+</tenants>

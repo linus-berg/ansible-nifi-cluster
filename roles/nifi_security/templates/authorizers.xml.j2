@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<authorizers>
+    <userGroupProvider>
+        <id>file-user-group-provider</id>
+        <class>org.apache.nifi.authorization.FileUserGroupProvider</class>
+        <property name="Users File">./conf/users.xml</property>
+        <property name="Legacy Authorized Users File"></property>
+        <property name="Initial User Identity 1">{{ nifi_initial_admin }}</property>
+    </userGroupProvider>
+
+    <accessPolicyProvider>
+        <id>file-access-policy-provider</id>
+        <class>org.apache.nifi.authorization.FileAccessPolicyProvider</class>
+        <property name="User Group Provider">file-user-group-provider</property>
+        <property name="Authorizations File">./conf/authorizations.xml</property>
+        <property name="Initial Admin Identity">{{ nifi_initial_admin }}</property>
+        {% for host in groups['nifi'] %}
+        <property name="Node Identity {{ loop.index }}">{{ hostvars[host].ansible_default_ipv4.address }}</property>
+        {% endfor %}
+    </accessPolicyProvider>
+
+    <authorizer>
+        <id>managed-authorizer</id>
+        <class>org.apache.nifi.authorization.StandardManagedAuthorizer</class>
+        <property name="Access Policy Provider">file-access-policy-provider</property>
+    </authorizer>
+</authorizers>

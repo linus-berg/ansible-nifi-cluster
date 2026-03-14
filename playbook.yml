@@ -1,0 +1,8 @@
+---
+- name: Setup NiFi Cluster
+  hosts: nifi
+  become: yes
+  roles:
+    - common
+    - nifi
+    - nifi_security

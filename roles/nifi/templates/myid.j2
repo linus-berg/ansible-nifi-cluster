@@ -1,0 +1,5 @@
+{% for host in groups['nifi'] %}
+{% if inventory_hostname == host %}
+{{ loop.index }}
+{% endif %}
+{% endfor %}

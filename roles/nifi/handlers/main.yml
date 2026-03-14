@@ -1,0 +1,9 @@
+---
+- name: Reload systemd
+  systemd:
+    daemon_reload: yes
+
+- name: Restart NiFi
+  systemd:
+    name: nifi
+    state: restarted

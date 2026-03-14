@@ -1,0 +1,11 @@
+clientPort=2181
+dataDir=./state/zookeeper
+initLimit=10
+autopurge.purgeInterval=24
+syncLimit=5
+tickTime=2000
+autopurge.snapRetainCount=30
+
+{% for host in groups['nifi'] %}
+server.{{ loop.index }}={{ hostvars[host].ansible_default_ipv4.address }}:2888:3888
+{% endfor %}

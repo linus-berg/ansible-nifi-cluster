@@ -1,0 +1,23 @@
+---
+- name: Ensure security configuration directory exists
+  file:
+    path: "{{ nifi_install_dir }}/current/conf"
+    state: directory
+    owner: "{{ nifi_user }}"
+    group: "{{ nifi_group }}"
+
+- name: Configure users.xml
+  template:
+    src: users.xml.j2
+    dest: "{{ nifi_install_dir }}/current/conf/users.xml"
+    owner: "{{ nifi_user }}"
+    group: "{{ nifi_group }}"
+  notify: Restart NiFi
+
+- name: Configure authorizers.xml
+  template:
+    src: authorizers.xml.j2
+    dest: "{{ nifi_install_dir }}/current/conf/authorizers.xml"
+    owner: "{{ nifi_user }}"
+    group: "{{ nifi_group }}"
+  notify: Restart NiFi

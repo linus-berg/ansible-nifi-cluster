@@ -1,0 +1,27 @@
+---
+nifi_version: 1.28.1
+nifi_install_dir: /opt/nifi
+nifi_user: nifi
+nifi_group: nifi
+
+# Cluster settings
+nifi_cluster_name: MyNiFiCluster
+nifi_cluster_is_node: true
+nifi_cluster_node_protocol_port: 11443
+nifi_cluster_node_address: "{{ ansible_default_ipv4.address }}"
+nifi_zookeeper_connect_string: "{% for host in groups['nifi'] %}{{ hostvars[host].ansible_default_ipv4.address }}:2181{% if not loop.last %},{% endif %}{% endfor %}"
+
+# Built-in ZooKeeper settings
+nifi_state_management_embedded_zookeeper_start: true
+
+# NiFi Users and Roles
+nifi_initial_admin: "admin"
+nifi_users:
+  - username: "admin"
+  - username: "user1"
+  - username: "user2"
+
+# Security (Simplified for example, usually HTTPS is mandatory for clusters)
+nifi_web_http_host: "{{ ansible_default_ipv4.address }}"
+nifi_web_http_port: 8080
+nifi_sensitive_props_key: "default-sensitive-props-key-change-me"

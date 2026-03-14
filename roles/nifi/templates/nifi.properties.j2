@@ -1,0 +1,52 @@
+# Core Properties
+nifi.version={{ nifi_version }}
+nifi.flow.configuration.file=./conf/flow.json.gz
+nifi.flow.configuration.archive.enabled=true
+nifi.flow.configuration.archive.dir=./conf/archive/
+nifi.flow.configuration.archive.max.time=30 days
+nifi.flow.configuration.archive.max.storage=500 MB
+nifi.flowcontroller.autoResumeState=true
+nifi.flowcontroller.gracefulShutdownPeriod=10 sec
+nifi.state.management.configuration.file=./conf/state-management.xml
+nifi.state.management.local.provider.id=local-provider
+nifi.state.management.cluster.provider.id=zk-provider
+nifi.state.management.embedded.zookeeper.start={{ nifi_state_management_embedded_zookeeper_start | lower }}
+nifi.state.management.embedded.zookeeper.properties=./conf/zookeeper.properties
+
+# Web Properties
+nifi.web.http.host={{ nifi_web_http_host }}
+nifi.web.http.port={{ nifi_web_http_port }}
+nifi.web.http.network.interface.default=
+nifi.web.https.host=
+nifi.web.https.port=
+nifi.web.proxy.host=
+
+# Security Properties
+nifi.sensitive.props.key={{ nifi_sensitive_props_key }}
+nifi.security.keystore=
+nifi.security.keystoreType=
+nifi.security.keystorePasswd=
+nifi.security.keyPasswd=
+nifi.security.truststore=
+nifi.security.truststoreType=
+nifi.security.truststorePasswd=
+nifi.security.user.authorizer=managed-authorizer
+
+# Cluster Properties
+nifi.cluster.is.node={{ nifi_cluster_is_node | lower }}
+nifi.cluster.node.address={{ nifi_cluster_node_address }}
+nifi.cluster.node.protocol.port={{ nifi_cluster_node_protocol_port }}
+nifi.cluster.node.protocol.threads=10
+nifi.cluster.node.protocol.max.threads=50
+nifi.cluster.node.event.history.size=25
+nifi.cluster.node.connection.timeout=5 sec
+nifi.cluster.node.read.timeout=5 sec
+nifi.cluster.firewall.file=
+nifi.cluster.flow.election.max.wait.time=5 mins
+nifi.cluster.flow.election.max.candidates=
+
+# Zookeeper Properties
+nifi.zookeeper.connect.string={{ nifi_zookeeper_connect_string }}
+nifi.zookeeper.connect.timeout=3 sec
+nifi.zookeeper.session.timeout=3 sec
+nifi.zookeeper.root.node=/nifi
